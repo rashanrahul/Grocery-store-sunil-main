@@ -1,6 +1,16 @@
 {
+  "version": 2,
   "outputDirectory": "public",
+  "functions": {
+    "api/store.js": {
+      "memory": 128,
+      "maxDuration": 10
+    }
+  },
   "rewrites": [
-    { "source": "/((?!.*\\.).*)", "destination": "/index.html" }
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
   ]
 }
