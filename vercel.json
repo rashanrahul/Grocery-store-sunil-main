@@ -1,6 +1,6 @@
 {
+  "outputDirectory": "public",
   "rewrites": [
-    { "source": "/api/store", "destination": "/api/store.js" },
-    { "source": "/(.*)",      "destination": "/index.html" }
+    { "source": "/((?!.*\\.).*)", "destination": "/index.html" }
   ]
 }
