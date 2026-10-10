@@ -1,0 +1,263 @@
+// ─── Sunil Store — Shared Data Layer ───────────────────────────────────────
+
+const DB = {
+  // ── seed defaults ──────────────────────────────────────────────────────────
+  defaultCategories: [
+    { id: 1,  name: "Rice & Grains",           nameSi: "සහල් සහ ධාන්‍ය වර්ග",        icon: "🌾" },
+    { id: 2,  name: "Dhal & Pulses",           nameSi: "පරිප්පු සහ රනිල කුලය",       icon: "🫘" },
+    { id: 3,  name: "Spices",                  nameSi: "කුළු බඩු",                    icon: "🌶️" }, 
+    { id: 5,  name: "Dairy & Eggs",            nameSi: "කිරි සහ බිත්තර",             icon: "🥛" },
+    { id: 6,  name: "Beverages",               nameSi: "පාන වර්ග",                    icon: "🧃" },
+    { id: 7,  name: "Biscuits & Snacks",       nameSi: "බිස්කට් සහ කෙටි ආහාර",       icon: "🍪" },
+    { id: 8,  name: "Bakery",                  nameSi: "බේකරි",                       icon: "🍞" },
+    { id: 9,  name: "Canned & Packaged Foods", nameSi: "ටින් සහ ඇසුරුම් ආහාර",       icon: "🥫" },
+    { id: 10, name: "Cooking Essentials",      nameSi: "පිසීමේ අත්‍යවශ්‍ය දේ",        icon: "🫙" },
+    { id: 11, name: "Household & Cleaning",    nameSi: "ගෘහ සහ පිරිසිදු කිරීමේ දේ",  icon: "🧹" },
+    { id: 12, name: "Personal Care",           nameSi: "පෞද්ගලික සත්කාර",            icon: "🧴" },
+    { id: 13, name: "Baby Products",           nameSi: "ළදරු නිෂ්පාදන",              icon: "🍼" },
+    { id: 14, name: "Frozen Foods",            nameSi: "ශීතකළ ආහාර",                 icon: "🧊" },
+  ],
+
+  defaultProducts: [
+    // Rice & Grains
+    { id: 1,  categoryId: 1,  name: "Ambul Rice",     nameSi: "අම්බුල් සහල්",      price: 290, unit: "1 kg",    stock: 100, image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&q=80" },
+    { id: 2,  categoryId: 1,  name: "less bran Red Rice",          nameSi: "නිවුඩු අඩු රතු සහල්",           price: 165, unit: "1 kg",    stock: 150,  image: "https://cdn.prod.website-files.com/5f8690e2f4f017863f10bd7b/684f83128704eac18e51a091_red%20ricee.png" },
+    { id: 3,  categoryId: 1,  name: "More bran Red Rice",          nameSi: "නිවුඩු වැඩි රතු සහල්",           price: 185, unit: "1 kg",    stock: 150,  image: "https://cdn.prod.website-files.com/5f8690e2f4f017863f10bd7b/684f83128704eac18e51a091_red%20ricee.png" },
+    { id: 4,  categoryId: 1,  name: "White Rice",          nameSi: "රට සුදු සහල්",           price: 180, unit: "1 kg",    stock: 0,  image: "https://img.magnific.com/free-psd/closeup-wooden-bowl-filled-with-cooked-white-rice_191095-79998.jpg?semt=ais_hybrid&w=740&q=80" },
+    { id: 5,  categoryId: 1,  name: "lankan white Rice",          nameSi: "ලංකා සුදු සහල්",           price: 185, unit: "1 kg",    stock: 150,  image: "https://img.magnific.com/free-psd/closeup-wooden-bowl-filled-with-cooked-white-rice_191095-79998.jpg?semt=ais_hybrid&w=740&q=80" },
+    { id: 6,  categoryId: 1,  name: "Pony Samba",          nameSi: "පොන්නි සම්බා",           price: 250, unit: "1 kg",    stock: 150,  image: "https://5.imimg.com/data5/ANDROID/Default/2022/6/EM/ES/ZD/5158094/product-jpeg-500x500.jpg" },
+    { id: 7,  categoryId: 1,  name: "Nadu Rice",          nameSi: "නාඩු සහල්",           price: 210, unit: "1 kg",    stock: 150,  image: "https://5.imimg.com/data5/ANDROID/Default/2022/6/EM/ES/ZD/5158094/product-jpeg-500x500.jpg" },
+    { id: 8,  categoryId: 1,  name: "Village red rice",              nameSi: "ගමේ රතු සහල්",              price: 185, unit: "1kg",   stock: 0,  image: "https://cdn.prod.website-files.com/5f8690e2f4f017863f10bd7b/684f83128704eac18e51a091_red%20ricee.png" },
+    // Dhal & Pulses
+    { id: 9,  categoryId: 2,  name: "Red Lentils",       nameSi: "රතු පරිප්පු",        price: 140, unit: "500 g",   stock: 40,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh4D3BbY5X-nk6GNft6l1gSAn8Wx2wPku6OFGZlUzlAYiFwh-vUXnrbnk&s=10" },
+    { id: 10,  categoryId: 2,  name: "Cup Lentils",       nameSi: "කප් පරිප්පු ",        price: 200, unit: "500 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh4D3BbY5X-nk6GNft6l1gSAn8Wx2wPku6OFGZlUzlAYiFwh-vUXnrbnk&s=10" },
+    { id: 11,  categoryId: 2,  name: "Chickpeas lentils",       nameSi: "කඩල පරිප්පු ",        price: 130, unit: "500 g",   stock: 20,  image: "https://s-mart.shophere.lk/wp-content/uploads/2020/04/kadala-parippu.jpg" },
+    { id: 13,  categoryId: 2,  name: "Bread flour",       nameSi: "පාන් පිටි",        price: 100, unit: "500 g",   stock: 50,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOfaU7atBpglrINbZN9x8j5FyHZECGueQsW7bgUaf9XNubqPtHzYwwF7Q&s=10" },
+    { id: 14,  categoryId: 2,  name: "Chickpeas",         nameSi: "කඩල",                price: 250, unit: "500 g",   stock: 25,  image: "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=300&q=80" },
+    { id: 15,  categoryId: 2,  name: "Green beans",         nameSi: "මුං ඇට ",                price: 90, unit: "100 g",   stock: 15,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxmcumGnjbMZsZMwhYwQLkbroTZ3Z5QO8Unsm4ybPM4B94aIH7a0-vMsc&s=10" },
+    { id: 16,  categoryId: 2,  name: "Chickpeas",         nameSi: "රටඉදි ",                price: 100, unit: "100 g",   stock: 15,  image: "https://www.shutterstock.com/image-photo/semidry-dates-date-palm-fruits-260nw-2559304275.jpg" },
+    { id: 17,  categoryId: 2,  name: "Peanut",         nameSi: "රටකජු ",                price: 90, unit: "100 g",   stock: 15,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTUNSzopMJl8OVbJbggnc8w2PL02z7cm1T4lmehQyFk6O9iz-ZfNvmeErh&s=10" },
+    { id: 18,  categoryId: 2,  name: "Raisins",         nameSi: "වියළි මිදි",                price: 100, unit: "50 g",   stock: 15,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ7Ngd3plJFdMo_mw-eC5yFfGi-kxva_aRz7M9ZG3NK0giMa8shIYZDb6J&s=10" },
+    { id: 19,  categoryId: 2,  name: "Sago",         nameSi: "සව්",                price: 65, unit: "100 g",   stock: 15,  image: "https://thumbs.dreamstime.com/b/white-sago-pearls-nnwhite-wooden-spoon-close-up-51175863.jpg" },
+    { id: 20,  categoryId: 2,  name: "Sugar Crystal",         nameSi: "සූකිරි",                price: 60, unit: "100 g",   stock: 15,  image: "https://media.istockphoto.com/id/165820985/photo/heap-of-salt.jpg?s=612x612&w=0&k=20&c=a1cU5JdbWrzJPK7f7PVLWX0Of-3-v-5_1QzHzwmg1ro=" },
+
+    // Spices
+    { id: 21,  categoryId: 3,  name: "Turmeric Powder",   nameSi: "කහ කුඩු",            price: 40,  unit: "10 g",   stock: 50,  image: "https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=300&q=80" },
+    { id: 22,  categoryId: 3,  name: "Chilli Powder Wijaya",     nameSi: "මිරිස් කුඩු",        price: 95, unit: "50 g",   stock: 55,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwKbGmcZUGzjHl54QlM5qpIFyBZkOMd3muEYtVdVGOcFBl0pQbWIGxAqxU&s=10" },
+    { id: 23,  categoryId: 3,  name: "Chilli peppers Wijaya",     nameSi: "මිරිස් කැලි ",        price: 95, unit: "50 g",   stock: 55,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwKbGmcZUGzjHl54QlM5qpIFyBZkOMd3muEYtVdVGOcFBl0pQbWIGxAqxU&s=10" },
+    { id: 24,  categoryId: 3,  name: "Roasted Curry Powder Wijaya",     nameSi: "තුනපහ කුඩු",        price: 95, unit: "50 g",   stock: 55,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPUEhkbFIjXZ3y5cSm5yONh1oS6t6P-LiShtL87hMNaw&s=10" },
+    { id: 25,  categoryId: 3,  name: "Black Pepper Wijaya",     nameSi: "ගම්මිරිස්",        price: 140, unit: "50 g",   stock: 45,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgp4X8rcRAPs3H8FmjPeVbsUkkJROtP6_lvkTGs-SvMw&s=10" },
+    { id: 26,  categoryId: 3,  name: "Meat curry powder",     nameSi: "මස්කරි",        price: 70, unit: "25 g",   stock: 45,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-hqmzeSkVw0aVLK59OUqTvB1UNI7ViRW3Fqm6BaSOVQ&s=10" },
+    { id: 27,  categoryId: 3,  name: "Meat curry powder",     nameSi: "උළුහාල් ",        price: 60, unit: "100 g",   stock: 55,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK5XsbDyJtQWXKCKwuFSuO-_QyEtskgjfsZjd9mq5zaQ&s=10" },
+    { id: 28,  categoryId: 3,  name: "Mustard Powder",     nameSi: "අබ කුඩු ",        price: 60, unit: "50 g",   stock: 35,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwKbGmcZUGzjHl54QlM5qpIFyBZkOMd3muEYtVdVGOcFBl0pQbWIGxAqxU&s=10" },
+    { id: 29,  categoryId: 3,  name: "Roasted Curry Powder",          nameSi: "බැදපු තුනපහ",  price: 90, unit: "50g",    stock: 30,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSdFH4HB5kQGZQaR_R286MgkbG0MTbPlD9CdEtBInC-zF7jvLdi5wQwE4&s=10" },
+    
+    // Dairy & Eggs
+    { id: 30, categoryId: 5,  name: "Fresh Milk Ambewela",        nameSi: "නැවුම් කිරි",        price: 580, unit: "1 L",     stock: 8,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhf4xxEfNMsLJwmXpqS3mL9Z_Inq3WbgcQqoYKJ7hcnA&s" },
+    { id: 31, categoryId: 5,  name: "Eggs",              nameSi: "බිත්තර",             price: 36, unit: "1 pcs",  stock: 260,  image: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=300&q=80" },
+    { id: 32, categoryId: 5,  name: "Ambewela Yogurt",  nameSi: "යෝගට්",  price: 80,  unit: "1 pcs",   stock: 40,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd2wY0Cg5wTxBWdFdrTlJBY2AxywMJljRNZCqS5ldrmBwt8jSxh9R8f-Y&s=10" },
+    { id: 33, categoryId: 5,  name: "Cheese",              nameSi: "චීස්",             price: 80, unit: "1 pcs",  stock: 20,  image: "https://static.vecteezy.com/system/resources/thumbnails/046/437/254/small/3d-cheese-emoji-png.png" },
+    { id: 34, categoryId: 5,  name: "Highland Yogurt",  nameSi: "යෝගට්",  price: 80,  unit: "1 pcs",   stock: 40,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRRY94UofS13D5s60IggpHKfkvrAiZN6_cbdNWuVzu6ytCEArHlTwZL0M&s=10" },
+    // Beverages
+    { id: 35, categoryId: 6,  name: "Sprite",      nameSi: "ස්ප්‍රයිට්",          price: 300, unit: "1050ml",     stock: 15,  image: "https://www.shutterstock.com/image-photo/londonuk-july-102025-bottle-sprite-260nw-2730462399.jpg" },
+    { id: 36, categoryId: 6,  name: "Sprite",      nameSi: "ස්ප්‍රයිට්",          price: 200, unit: "400ml",     stock: 15,  image: "https://www.shutterstock.com/image-photo/londonuk-july-102025-bottle-sprite-260nw-2730462399.jpg" },
+    { id: 37, categoryId: 6,  name: "Sprite",      nameSi: "ස්ප්‍රයිට්",          price: 150, unit: "200ml",     stock: 15,  image: "https://www.shutterstock.com/image-photo/londonuk-july-102025-bottle-sprite-260nw-2730462399.jpg" },
+    { id: 38, categoryId: 6,  name: "EGB",      nameSi: "EGB",          price: 200, unit: "500ml",     stock: 10,  image: "data:image/jpeg;base64,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" },
+    { id: 39, categoryId: 6,  name: "Cocacola",      nameSi: "කොකා කෝලා",          price: 120, unit: "250ml",     stock: 10,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdJK2DGzxHZLX278okO8Dk1vVq5TJ2aFwcw0AH-PbVPMZe9BD2-eKoIqw7&s=10" },
+    { id: 40, categoryId: 6,  name: "Cocacola",      nameSi: "කොකා කෝලා",          price: 200, unit: "400ml",     stock: 10,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKqwlkKdSXLpRE3mfzoNLrSiw2527mgD1oWit0S3c1lmgUYR5_NIDEW3PN&s=10" },
+    { id: 41, categoryId: 6,  name: "Cocacola",      nameSi: "කොකා කෝලා",    price: 300, unit: "1050ml",     stock: 10,  image: "https://objectstorage.ap-mumbai-1.oraclecloud.com/n/softlogicbicloud/b/cdn/o/products/600-600/117881--01--1678764246.jpeg" },
+    { id: 42, categoryId: 6,  name: "Water",      nameSi: "ජලය",    price: 150, unit: "1500ml",     stock: 10,  image: "https://supersavings.lk/wp-content/uploads/2021/03/American-water-500ml.png" },
+    { id: 43, categoryId: 6,  name: "Water",      nameSi: "ජලය",    price: 120, unit: "1000ml",     stock: 8,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsAMgtbrLklIe_JvOx5V-Qd2PrxXQOwSYZgYcyE2qfPvUhGtimVDNWPHc&s=10" },
+    { id: 44, categoryId: 6,  name: "Water",      nameSi: "ජලය",    price: 80, unit: "500ml",     stock: 10,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsAMgtbrLklIe_JvOx5V-Qd2PrxXQOwSYZgYcyE2qfPvUhGtimVDNWPHc&s=10" },
+    { id: 45, categoryId: 6,  name: "Cream soda",      nameSi: "ක්‍රීම් සෝඩා",    price: 80, unit: "200ml",     stock: 5,  image: "https://supersavings.lk/wp-content/uploads/2025/03/Sun-Crush-Cream-Soda.jpg" },
+    { id: 46, categoryId: 6,  name: "Tropical punch",      nameSi: "ට්‍රොපිචාල් පන්ච්",    price: 350, unit: "1500ml",     stock: 10,  image: "https://supersavings.lk/wp-content/uploads/2025/11/Sun-crush-tropical-punch.jpg" },
+    { id: 47, categoryId: 6,  name: "Tropical punch",      nameSi: "ට්‍රොපිචාල් පන්ච්",    price: 150, unit: "500ml",     stock: 10,  image: "https://supersavings.lk/wp-content/uploads/2025/11/Sun-crush-tropical-punch.jpg" },
+    { id: 48, categoryId: 6,  name: "Aloe vera",      nameSi: "කෝමාරිකා පානය",    price: 140, unit: "200ml",     stock: 10,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgXm90MNyVU6aMk37BRkj-SqWrdxjXmy9Piy9Qry2ZlOaQ8eChMd0UPmo2&s=10" },
+    { id: 49, categoryId: 6,  name: "Wood Apple Nector",      nameSi: "දිවුල් පානය ",    price: 150, unit: "200ml",     stock: 5,  image: "https://www.lakfood.com/cdn/shop/files/KistwoodappleNectar_2048x.jpg?v=1752947142" },
+    { id: 50, categoryId: 6,  name: "Fun fruit (KIST)",     nameSi: "පලතුරු පානය",          price: 150,  unit: "200 ml",  stock: 4,  image: "https://globalfoodcity.com/wp-content/uploads/2017/12/file.jpg" },
+    { id: 51, categoryId: 6,  name: "MILO",     nameSi: "මයිලෝ",          price: 130,  unit: "130 ml",  stock: 10,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGP-7c6n5K2jNOTakfizKanMFWKLhrcTmb3Xd0I0rgLwgw2PpzVcjIIZY&s=10" },
+    { id: 52, categoryId: 6,  name: "Yogurt drink",     nameSi: "යෝගට් පානය ",          price: 150,  unit: "200 ml",  stock: 10,  image: "" },
+    // Biscuits & Snacks
+    { id: 53, categoryId: 7,  name: "NICE Biscuits",          nameSi: "නයිස්",             price: 110,  unit: "100 g",   stock: 50,  image: "https://objectstorage.ap-mumbai-1.oraclecloud.com/n/softlogicbicloud/b/cdn/o/products/600-600/120894--01--1635692208.jpeg" },
+    { id: 54, categoryId: 7,  name: "NICE Biscuits",          nameSi: "නයිස්",             price: 240,  unit: "200 g",   stock: 50,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv580SWkups0C2Wz5m3dJ3RFtcoENMFqRHeDrXVAYiqAGIV9C72mOlOzDj&s=10" },
+    { id: 55, categoryId: 7,  name: "NICE Biscuits",          nameSi: "නයිස්",             price: 460,  unit: "400 g",   stock: 50,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTbhVgMrpLZP5b07upK3XG2c2phm13JiDEktU4Os_WbVNy5Ax6EHEcH_4&s=10" },
+    { id: 56, categoryId: 7,  name: "Super Cream Cracker Biscuits",          nameSi: "සුපර් ක්‍රීම් ක්‍රැකර් ",             price: 420,  unit: "500 g",   stock: 10,  image: "https://static-01.daraz.lk/p/ba8c4920675e1eebd5a3a1d2a7a520e9.jpg" },
+    { id: 57, categoryId: 7,  name: "Super Cream Cracker Biscuits",          nameSi: "සුපර් ක්‍රීම් ක්‍රැකර් ",             price: 240,  unit: "250 g",   stock: 20,  image: "https://static-01.daraz.lk/p/ab96a95123716d08e0c92645d3c0e551.jpg" },
+    { id: 58, categoryId: 7,  name: "Super Cream Cracker Biscuits",          nameSi: "සුපර් ක්‍රීම් ක්‍රැකර් ",             price: 140,  unit: "125 g",   stock: 50,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW0_VsB7GjxuyG_bj9eEgv2Oi8lQjaCWA4fpF3iZHjCQ&s" },
+    { id: 59, categoryId: 7,  name: "T Crunch Biscuits",          nameSi: "ටී ක්‍රන්ච්",             price: 75,  unit: "100 g",   stock: 50,  image: "https://i0.wp.com/onlinekade.lk/wp-content/uploads/2023/04/8888101619459-1.jpg?fit=240%2C240&ssl=1" },
+    { id: 60, categoryId: 7,  name: "TiFiN Original Biscuits",          nameSi: "TiFiN",             price: 200,  unit: "125 g",   stock: 20,  image: "https://static-01.daraz.lk/p/72b048a428f7316de7c9724f73a35970.jpg" },
+    { id: 61, categoryId: 7,  name: "TiFiN Onion Biscuits",          nameSi: "TiFiN",             price: 200,  unit: "125 g",   stock: 20,  image: "https://static-01.daraz.lk/p/03a8c8eaa30e79016141e310e9d8c3a6.jpg" },
+    { id: 62, categoryId: 7,  name: "CHOCOLATE PUFF Biscuits",          nameSi: "චොකලට් පෆ්",             price: 270,  unit: "200 g",   stock: 20,  image: "https://static-01.daraz.lk/p/5968d850e56787b615c450fdc6f1c8b8.jpg" },
+    { id: 63, categoryId: 7,  name: "CHOCOLATE PUFF Biscuits",          nameSi: "ොකලට් පෆ්",             price: 130,  unit: "100 g",   stock: 0,  image: "https://colombo20.com/wp-content/uploads/2020/07/Munchee-chocolate-puff-100g.png" },
+    { id: 64, categoryId: 7,  name: "LEMON PUFF Biscuits",          nameSi: "ලෙමන් පෆ්",             price: 270,  unit: "200 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0LyB6Jn1PRrR6KHIQZgzZQIv0ACVfBKetk9_jdqon2g&s" },
+    { id: 65, categoryId: 7,  name: "LEMON PUFF Biscuits",          nameSi: "ලෙමන් පෆ්",             price: 130,  unit: "100 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzW4qevXOhnbUerY1UTvQeT4cuCx9lOF2fCyFwkfhElQ&s=10" },
+    { id: 66, categoryId: 7,  name: "Milk SHORT CAKE Biscuits",          nameSi: "මිල්ක් ෂෝට්",             price: 250,  unit: "200 g",   stock: 20,  image: "https://i0.wp.com/onlinekade.lk/wp-content/uploads/2021/09/8888101030407.jpg?fit=750%2C750&ssl=1" },
+    { id: 67, categoryId: 7,  name: "Tikiri marie Biscuits",          nameSi: "ටිකිරි මාරි",             price: 230,  unit: "230 g",   stock: 10,  image: "https://img.drz.lazcdn.com/static/lk/p/2bf95edb900599edc3d74c056a90c7b1.jpg_720x720q80.jpg" },
+    { id: 68, categoryId: 7,  name: "Tikiri marie Biscuits",          nameSi: "ටිකිරි මාරි",             price: 90,  unit: "80 g",   stock: 20,  image: "https://img.drz.lazcdn.com/static/lk/p/7c0dfb13cf519410013cfdb954aac12c.jpg_720x720q80.jpg" },
+    { id: 69, categoryId: 7,  name: "MALT UP Biscuits",          nameSi: "මෝල්ට් අප්",             price: 120,  unit: "52 g",   stock: 15,  image: "https://www.ranjanlanka.lk/src/item/10188436330.png?reload=733" },
+    { id: 70, categoryId: 7,  name: "Chocolate cream Biscuits",          nameSi: "චොකලට් ක්‍රීම්",             price: 420,  unit: "400 g",   stock: 20,  image: "https://srilankanroots.com/wp-content/uploads/Uswatta-Chocolate-Cream-copy.jpg" },
+    { id: 71, categoryId: 7,  name: "BATTER CAROL Biscuits",          nameSi: "බැටර් කැරොල්",             price: 420,  unit: "335 g",   stock: 20,  image: "https://www.flavorsofceylon.com/cdn/shop/products/sri-lankan-groceries-usa-flavors-of-ceylon-little-lion-batter-carol-cookies-360g-30600034713800.jpg?v=1658011517" },
+    { id: 72, categoryId: 7,  name: "BATTER CAROL Biscuits",          nameSi: "බැටර් කැරොල්",             price: 125,  unit: "95 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToHh0D1nX9A6CIIf3Xi5bXBolz0Qo2M6TW5ZUKMg8BZBIRWyMaHCdV7Cs&s=10" },
+    { id: 73, categoryId: 7,  name: "Hawaian Cookies Biscuits",          nameSi: "හවායින් කුකීස් ",             price: 140,  unit: "100 g",   stock: 20,  image: "https://leyonsuper.com/wp-content/uploads/2025/08/Untitled80-1.jpg" },
+    { id: 74, categoryId: 7,  name: "Smart Cream Cracker Biscuits",          nameSi: "ක්‍රීම් ක්‍රැකර්",             price: 190,  unit: "200 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv--oI-IcpCAm8IsQrFxqlj748_1nI_rlIUe5nO_WNeYRADc4cd5SNTIg&s=10" },
+    { id: 75, categoryId: 7,  name: "Smart Cream Cracker Biscuits",          nameSi: "ක්‍රීම් ක්‍රැකර්",             price: 100,  unit: "85 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTO3A9h5kWMqnBNxB3yXY4HyfD9yY5P8IbyNJlmKdSqef_h3C_i9kDX1iU&s=10" },
+    { id: 76, categoryId: 7,  name: "Ginger Biscuits",          nameSi: "ඉඟුරු",             price: 130,  unit: "80 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTA4Mtimvy-_rpbZEYimInP7YpEPS-kkNHl2PFxvIEbIuch9naXGcEbrJBy&s=10" },
+    { id: 77, categoryId: 7,  name: "Ginger Biscuits",          nameSi: "ඉඟුරු",             price: 300,  unit: "240 g",   stock: 20,  image: "https://i.ebayimg.com/images/g/kH0AAOSwg2xitstG/s-l1200.jpg" },
+    { id: 78, categoryId: 7,  name: "Real Chocolate Cream Biscuits",          nameSi: "චොකලට් ක්‍රීම්",             price: 260,  unit: "200 g",   stock: 10,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKVVVh7NVd5L8j0OM5TTBGeTdLIBGZGFr14dAy6BxtC3BPiHc48wn9HVc&s=10" },
+    { id: 79, categoryId: 7,  name: "Real Chocolate Cream Biscuits",          nameSi: "චොකලට් ක්‍රීම්",             price: 140,  unit: "100 g",   stock: 20,  image: "https://serendipdelights.com/cdn/shop/files/Maliban-Chocolate-Cream-Biscuits-100g-800x800.jpg?crop=center&height=345&v=1703969706&width=345" },
+    { id: 80, categoryId: 7,  name: "Choco Cream Wafers Biscuits",          nameSi: "චොකෝ ක්‍රීම් වෙෆස් ",             price: 300,  unit: "225 g",   stock: 10,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8mnnz_8HQD9aK1W9MHHRDf1sDvXBHsyms1xZNpREJcs4Xn91U9_8N3KLe&s=10" },
+    { id: 81, categoryId: 7,  name: "Vanilla Cream Wafers Biscuits",          nameSi: "වැනිලා ක්‍රීම් වෙෆස්",             price: 300,  unit: "225 g",   stock: 10,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8mnnz_8HQD9aK1W9MHHRDf1sDvXBHsyms1xZNpREJcs4Xn91U9_8N3KLe&s=10" },
+    { id: 82, categoryId: 7,  name: "Choco Cream Wafers Biscuits",          nameSi: "චොකෝ ක්‍රීම් වේෆර්ස්",             price: 490,  unit: "375 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8mnnz_8HQD9aK1W9MHHRDf1sDvXBHsyms1xZNpREJcs4Xn91U9_8N3KLe&s=10" },
+    { id: 83, categoryId: 7,  name: "Vanilla Cream Wafers Biscuits",          nameSi: "වැනිලා ක්‍රීම් වේෆර්ස්",             price: 490,  unit: "375 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8mnnz_8HQD9aK1W9MHHRDf1sDvXBHsyms1xZNpREJcs4Xn91U9_8N3KLe&s=10" },
+    { id: 84, categoryId: 7,  name: "Choco Cream Wafers Biscuits",          nameSi: "චොකෝ ක්‍රීම් වේෆර්ස්",             price: 120,  unit: "85 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8mnnz_8HQD9aK1W9MHHRDf1sDvXBHsyms1xZNpREJcs4Xn91U9_8N3KLe&s=10" },
+    { id: 85, categoryId: 7,  name: "Vanilla Cream Wafers Biscuits",          nameSi: "වැනිලා ක්‍රීම් වේෆර්ස්",             price: 120,  unit: "85 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8mnnz_8HQD9aK1W9MHHRDf1sDvXBHsyms1xZNpREJcs4Xn91U9_8N3KLe&s=10" },
+    { id: 86, categoryId: 7,  name: "Happy Cookies Biscuits",  nameSi: "හැපී කුකීස්",   price: 170,  unit: "200 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2t8CBNEvoX-TiEPvaX1slY93ubua-TpyEF6gmJ5yZYNPFhXRWml6_1qjB&s=10" },
+    { id: 87, categoryId: 7,  name: "Milky Rusk Biscuits",  nameSi: "මිල්කි රස්ක්",   price: 250,  unit: "200 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUQ6envyzUiA9J6G8UMLp-lOED0dx8ijDVg5dK7ciyzw&s" },
+    { id: 88, categoryId: 7,  name: "Light Marie Biscuits",  nameSi: "ලයිට් මාරි",   price: 50,  unit: "50 g",   stock: 20,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtVZI4eD-E6jmiAoKtkqpllTNiWD-nw-jufxJN99zZ5AO5UQRn2fh6eZPv&s=10" },
+    { id: 89, categoryId: 7,  name: "Supreme Cream Cracker Biscuits",  nameSi: "සුප්‍රීම් ක්‍රීම් ක්‍රැකර්",   price: 400,  unit: "500 g",   stock: 20,  image: "https://www.cherishbiscuits.com/public/images/cracker1.jpg" },
+    
+    { id: 100, categoryId: 7,  name: "Chips",             nameSi: "චිප්ස්",              price: 110, unit: "100 g",   stock: 45,  image: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300&q=80" },
+    // Bakery
+    { id: 90, categoryId: 8,  name: " Bread",       nameSi: "පාන්",           price: 140, unit: "1 loaf",  stock: 20,  image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&q=80" },
+    { id: 91, categoryId: 8,  name: "Butter Cake",       nameSi: "බටර් කේක්",          price: 950, unit: "1 pc",    stock: 10,  image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&q=80" },
+    // Canned & Packaged Foods
+    { id: 101, categoryId: 9,  name: "Canned Tuna",       nameSi: "ටින් මාළු",           price: 280, unit: "185 g",   stock: 55,  image: "https://images.unsplash.com/photo-1534482421-64566f976cfa?w=300&q=80" },
+    { id: 102, categoryId: 9,  name: "Tomato Paste",      nameSi: "තක්කාලි පේස්ට්",     price: 95,  unit: "200 g",   stock: 40,  image: "https://images.unsplash.com/photo-1546548970-71785318a17b?w=300&q=80" },
+    // Cooking Essentials
+    { id: 92, categoryId: 10, name: "Coconut Oil",       nameSi: "පොල් තෙල්",           price: 175, unit: "1/4",  stock: 30,  image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&q=80" },
+    { id: 93,  categoryId: 2,  name: "Brown sugar",       nameSi: "දුඹුරු සීනි",        price: 135, unit: "500 g",   stock: 60,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTevmk68p2D9NqCWQHXHig4gIzAdinqMLsMdIXRtu8VmA&s=10" },
+    { id: 94, categoryId: 10, name: "Salt powder",              nameSi: "ලුණු කුඩු", price: 100,  unit: "400 g",   stock: 100, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKTAa2-XOHxi63DdncQZL4YKvm2PvnzaWec7NtaQl7sU9T0g52bTtGmJ91&s=10" },
+    { id: 95, categoryId: 10, name: "Cuminum cyminum",              nameSi: "සූදුරු", price: 65,  unit: "50g",   stock: 100, image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOaJTYTWJbgClJsDNIz8AD3iyTpvwWuvRqeUEOjEfSdFvYapEfYdfFOuLZ&s=10" },
+    { id: 96, categoryId: 10, name: "Foeniculum vulgare",          nameSi: "මාදුරු", price: 40,  unit: "50g",   stock: 100, image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAmAMBIgACEQEDEQH/xAAcAAACAwEBAQEAAAAAAAAAAAAFBgADBAECBwj/xABAEAABAwIEBAQDBwEHAwUBAAABAgMEBREAEiExE0FRYQYicYEUMpEVI0KhscHRUiQzYnLh8PEWgqIlNURTwgf/xAAZAQADAQEBAAAAAAAAAAAAAAABAgMEAAX/xAAjEQACAgICAgMBAQEAAAAAAAAAAQIRITEDEiJBEzJhcVEj/9oADAMBAAIRAxEAPwDniGdkjBCj5spAzGwPMjA1mMzPpLvwoCZafvGVjcq0IHucw98F50ikpnTkCUpLqCpCAu5QlI3UBzwp0KoCJJcYWpYSFnKVCxKSNfe3548aHHUP09PtkpU0qpo+9UptKFDMUq8w/qTb1v8Alh1ocejwWB8BFSshOYqZYCzpuS6vT6YSvEDTD1XacDzamHEgyG0HdQ0/8gR9DhuoNPhPSnJ89MlS78RuA5fhsDYHKrQXtcEiwvh+ReOwR2FFy3paFNwaclQUDqXsxHeyBYfXCjB8R1KjSFUuoQszjarBtxriApO2qdR+Y9MP7niKChJQy62EIuCUqs2CORXz9vrheca+3c8lpaAtxrhsqQLZRm0USO+w54hBxV9lgq0/QLqr9bqaVR4zbMNKtFN3yZhzG5PPtherFNjU+OEB5l2oXFm0pIAHqThlTQZUMiK0r+0GQhLk86KKc4ACB08//OMFL8Owa7SpAkzVfEMOrB4CQHEWO6gfn/LGiMlHKeCUl2/oqoSpDqSl59tOqFlAsm29jyxvhR2YzThjP5HCc6MxPlPYi1sUzqbU6OpMRchLsXdl1ABSsfz2+mMAbLchqQtKMqCcx23FueuNN9lh4IVT0ObVenwXkR6suziBmTxvMT/ldSb/AFv3wySKiwWUTZLT0RZ8q5LYutIOtyobjuRj5XU5TZDRbXmUlV7p/CP9kYafDHiJDMQwZ5bKUAeRagDlOt030I106dxtm5OHHZItGeaPpclsVGmLkhwPktnjFo6PII8xTbZWyvUd8KcaLxaBNpsxQlFvOpt1QvxCLqSr3v8Atiqg1L7MnSRDeV8Kk6JCgUG/S2x115YJsutrQ/JZtuq1hcWuenS/fEm6HSAyKSHKV8Ut1uO0wopWtW9zYA+23uTgbNaZfacjvNpdWz/cuNqCgsAAA/qMNvwCptNRTsqVQHlDivZ7ZQDfUjXU3/LC5UmaRTnUsxwG5KXT5WVD7xFgB6J0v31xfi5HETkXoz0V6nlgvrfSy8CQQtsA6dFDUYx1Vv7RlJd46yoJyJLUhChYbaEd8R6OU1FtxkMqi5vMm5y2I5af71wNrNELZVKjHK24ohKD+Ej5knv/ABjbycvdXHBFRrDLlwEQ47j0iahxdjkaXlC76dFG4tjmB8OIlxlbzqOG0kZeK2jNb1I298TElXsL/BoqEiE5UeMhshxpJJWpWnb6a4APSU5jlSXWiSUEp133HTXDn4mosViHEcktuGO8E2daF1KN1FQtztYfUYWHoIAScyw0keXOMvD/AMxtv2xGLUR5O1YN4LinESKfJSlCVXNh5myNdueuCNMgpkyAr40v8TV3jOKR5u+98Y0S4cV5TYyPsu+VYy+Un1PPvtjsFS409CGHbhRs0vNlOuwJ9dMPLMRVse2aJwmjJL8FBtlCjxFG/a5ABx6pDi4eZTzqHJPEKlZUZRmslKdORAzG3U4U5s3xDTp3wTz9m1jOl1lhIWU8jcC+1x7HB2h0xysUpxmK5wQ43mbcuS445qLk7i5Sb6/rjJLjcVlmjumF4tWZakVIzFpYbjZXUFZ+dCbXt11SPqDhNmNSIsiPWKK8kBYKnEtrF213BvbvfbBJT5rUAQ5iA1UWWh87dyQnna2t8qR7YqiNU6mw2VSFPJMlCXC2oatbjQ2230P53OGj4gk/SNXxkbxFTHPIG57YJeYTpc81oH5kfvutw6HUnm3JCWUux0XVxULFykdjvhwd8PUaU22qM/IYmOIDiSwsqcQgjRa21AK17X0F8EfBbXApkuK8pL6ghSQsCwVZeXY8ykbdsNB9E6JyTls+ZP0aQhr4xlrOySRoO9iLcjfkddNsdadprrAQX2kKTf8AvNCk9Af5vj6oaQzXqQ260tSJSAUvW/HlOmbqRoD133GFSq06My8I1TYbaca/u30oJQdNMwGo/Q798U+VN5E6YsFUASG1qKH2FIcRkUG3EqzDuAcNc+a1Do+YPrjgDLwVtCxSdDlI1vhAlx4saS4y4WEkDRcVSlpUPXlyx5akBLIbiSVLC/mS750LHoRgS4lN9rHXJ1VH0GJK+IgNsQnShxtAS35/IsAbHS49xjZBj0+XTno8yJHRUuGoIKiUNuKtp5tbdMfM6fOmsSFORnDGUlOazZCkkDmkK/TG2j1CpKeWBMWtKiVXFwST1Awr4XHTCuS8MOz/AAvIhwSXYTzedfyl3N5SBbVKtd8ZDTn4ENXED5Qp5KUxXhZaTlOY3tc6ZbeuxxVD8TzWZ7BkOWdST5dbkW2y2Ax9AqrUOt0z+0LU242AUPtpzaHZdulrH/uwr5JcdJ6ClGWhBpFIakfFhTzzKSkBTbYSCpIJ1vseW3rjuCa6RMiHiwJjE1A1uglK/wCT6G/piYLm27TCoxod/Cc6mSaTKgzXkcdiWooU4flKhpvtz+uArkKky6hMlOJaLrLobUkqunMBvbYnXfsMBVQGJzzqyVstPFaOKlViSnt/SLYGSqXXKdkjRksvXyrUY4JOnqMGbU/dCwXUr8QwYUurOstNkLjoSopbIGfU3A7jT64zmhIWy03HecC/mzLSLgb37jkRvrjQ9CadpbVRhAplsHM8jNcua+b3F8bkyWTS0zCM8UXVmQbqRvcj03tod7dC6k6VMVpXlHmY7Mp8eE09nfWSoF9olSUoIBHm3674ORJCaVVIrOVSOIwHTcmxUTc/mB9cJ7D6J9Yjx6XJkOsuOBT0cpKUJ6kHp7Df2w8eO0ogsMypKViOcpDjKdWiBzA3SRp2xKcKpf6UjL3YqR5YqjEht1p0BiWpCHNQVtXuEdbC2Y9BtjZMTPhVUOzVtOQ20haGGwFFy+l1i2ova9jtYC3L0unJZgRJkZ0IfcjpVHSXbFCzZWg5i298aKZVVVBuLIVEBUxdp5oWSooIv5fTl9OQOC5VlIT7bMMCmKq0qRJkVh16UXtJKRlyKtcDKRdOltAbEba4YvCTksSE02oFTlQSV51XuF/eEg+6CMcqpbiMfaEQZlspzKt/8lje3qBcjoU8sX0eQmXV6ZVGCl1pttZS6nTinYIPQ23vscBSc3nTC11WBmiQXYdTZkshLaHEJVktYLOt/wArYEf/ANRpKW4HFaSWStV2pCEkqaI8xTcagHpthrrNTcYkRy3HvGDYWt0W+77+mNtRhIrNLkMOKSpDgylKk3GmL/HFKllkPkd2fnmXIpiIQSpan3WxdQWc6lq6qP7fxhffmFEziqbs0oAWO4HLbbD3/wBNxIUiW5LlwVqzWQw1rzHIc9NsYvEVGiz1xG2ssV1xC3FFabXtbT1/T3wITipUNKLasW/iAtbBUc6Lg3O4/wBcdh1IxJqXnIqHQk2BbJbJ9baH6Y9zKPLhNJQtlawHAA4hN0279PTGIutpeWgaNpuHAeRA/nFcMGsh2s1FifGbk8NDclGoUFAqV0voL7dMel1CTLp8fhOFIaAACSQD0B9rj2GAlOrs6OpTTV+BzJva2PL9WcacWsLQ8gjVCNLHlhHxPQ3yRGmFU2aa61UDnQlwWULAp1NuuJjDObW74VYebAI4SVZiL/iIxMLHihK7GcmtDB4aderUaUH5SI6mdEqKbqSFbm1xZOlr9enMrEZqFJTkkrYkIbSkIUhtVhbmoDzIv/ULgemArbMWL4gaqCQ42phoHynKCLan2GvTQ3BwxtTY8lJyJkwT84PDs0QT81lXRY9bj2xCavK0VVo6qXTJqA/LjuR1qBu+gFxBPXiov/5DngPKpDDCHXqXUoslpwEPRUrSC8nY3SNM3Q6bYor1JdTOQ/xFo4mhfp6yhSzb8QJNte+LCr7Fi5pDj8iQuwQl90qufQ8huf8AXCrx08jbWTtFiuwmkvwERkSipKELWi4O9x1scw+gwW8SSfiHY0LOlcxwW42W2QAeZdr7f6dcAUy5EFa+KwkGKjMklROe18hAG5II+mM8yo5UKSJIkS3mwh1xlNgNNUoPqTt0wyi27YjlFLAR8RxHkMJkKDgaayZDlB4QBULn1OUn2wKenLQ2mVHQ2tSE2WEgpzp003OotcYPeG5zlVjBUxSVKzPMOAptbRWhB5jS+BcMNRkLlwWg64YibI5KBFwR0P8AB7YKtOn6FVVaNcKSuRCU4w8gISblCzZSVK1uB0Nvri6iVNJnIgwnWeO4SEtoshIO5x7iJZRFW/KbEiQwnM620LlOg35+wx4BXWEIVApkJ5gDN51AFPqL5gfocBVdHVKhkq1Un0dxlqouZ4z4KFAJuNtrnkRy7YNxql9rRA0glMebCuUKTsr5VDsQbfQ4Q3Uy0+HzCrFYTMWkgsx0geZYHlRnOpPbfrizwvU6pDZbbVTlusp+8bCkuZ2FK3SQlJFjobXuOeC21HAOmcg6iwr1F91OcqS6oNPyCVZNdAEn5sea41VEVaPNeo8icllWQcBtzMtG4Jyg2sf264NSKBUpDjz6qg6247dWRbdh1tooqt7Y5SpviFglC6RNCATlXxm0A200SsXt9MBTzex5RxQFXVn36c81SH1xXELDrtPcGhKfxJvYg9j9OeAFVju1pviTeG1KJGdxtN8wGnmGgv74ZPFb9TkJEqa1GjNo8gLi0qcWSdhZR0H84XWHSXAJcpLdjccIBSbeumuKxbStEWs0ZWvDj5ZCWJbbtyABbKASbDW9sah4TQyCuXHefQPmeibg9CNyf1xsmiimOQ9OmJKPMHFI4gJ6ADGqk1mosqUiW2p5sjM0Xkltxab2za766ajc4bvOrCorTJ4Hq1IXDco1aWGkoUpLTitApKtxbkb2xMao9ah1CQWWqSp11wltaHI4Kj1sb798TEZ1d6KxWDjC0Nx0umM446yvOUITqdBdCgduWvQ4apbLcyIwpGdDo8zRaVlUmwRpcciND64UqmZyI7VQpCeI6hBK0K1K2/m580n9e2LYniGTFhMPuNKZW3dDzKk/KDobdf8AQYpHjbYvatl7kyrhchIbaTEaul1TiNPQD/YGPUtuK5FacmS3XlOLB4nAN1JGoSlRske3LHql19qdIgx3E5OOqwT1O5NutvztimpzabAraY7GRyK4olyMEgoaX1Cf6jc7fvgcvCoyofsmrK6nNhuu8OsRZMdjN90+hYQhYtoMxBH6Xx7iT/DFPVniNByVYpQt13iKT2AGgPcjEnWfivCnrQ6wrT4ZxWiTe10KPK42JtqLWtbAefFU3T3nmnG0mKsuZUuBKwbC4sTqNemFik1Qknk3UNx1SKg5LV8GxJkgrzgAtZ7BSkqFx8t9+YwYneG2YGb7KTIT8No8w4orunmpBOum5HQ6YBUOuNVdtcFEdCvJlfPDykpNxpckXvY9NOWGrw9U5E2M5Dfd/wDU6fpexHHaHyuW3uNlDC8nZX+HRpoBwa3GotcckVFSjHloQW20o/vBaxIVsClV+/bUHB9fh2jVf+20mS0sLN8pAULnqk2IPoQMVV2HG4CKjLgtS47aDwGXEXDLh3AJuNdLadNraJypZkKakR6AhCXCQngSXWim3XWw9xgV3prA0W4vI21nw/Dg0l4y3Ka2hVkKS40tR12seISk9LYx02oKVEy0+WgLSnKlSwVp02JB81u/LmAcW0WkQEKTUpr7inso4EaRJLgbXbUm29uXfA2T4aEeQuVS5rrGuctsxXFAq65lEAH0P5Y5KLVN5DbXobHKtFi8KPKqkdlxSQQgOKzunnyuR6YGTKowzMbjMxH5Uh5JU2t+7TZt6+ZX5csC4yJU5tpx9cMfDqKmpDRCrq2Jycjve2mBVf4cdMeey+/OktO2cdK8ylDntom1rgJvYjBXHG6A5nurRnZ1Vc+OZ4sxDd2zYJaCNwEpuNN9tdNcZ6nDvHU2yYzUoBJbNuETqAQQTqLX1ODNTdpld8P8aUwXVgZ2yi6VtqP4kn+g66a2OnTAKBSWVMKMCQviIF1MvDIrcA9Ot+eKJ0siySbMseBVksuFbcTMg+VQczEnr5SRbDJBbi+I6U08JQjPQFlKnFEWbCjcoVe1xe+Ug+oxopdGZkRyZEwug+VfBGg7XNh74JRR4e8MlMczQy3NNlZ1haUKTzVp8pBKTyGnrhJcilhbO6KJKY3TWHbtTRMcaAV90PmPRNtzt9cTBCbQInwo+x2Y0WQtsobyaNrQbXykaBR2v0J63xMIlB/Zj3JaFGBKQYy2UvJQpCVgE66HZQ62P7Yy0VpmUtSKmtEmR+EL0QCNxbncdemMb0QRsvADqVqVmQqyswBF7aDb/emNVNYQH0ypNHbJb1yJXZauqsoBt6DF/q7TJxzg2uQW5CXqjSkKRkIWp1CQoC2hA5X5Wx4pLcKpypcCTAhPvthLiEhAS6tJHzIVYH1sbj9WynUua/BelRpYbaeF/hlovmT3Vf8AnAWrQqZBeiy58JsZSjJJYUUlIvqRt1Jt+eKz5YckOy2FRp0UNeF2HZN4U9yOpVwpD/mIPZQ37g2P78o0Pw4zUJTFSqvGfbayOpeBYbsN0kb6ctdsNS/h30JVLyp4iRw5bZ8rieWvP32wAqNEgVTxExDqUVbjojOkSVN5UOJAASL8yPMd9t8ZISUm7HlCso3K8TeF4DzECLTyQ6crC48dGValEEgKPXTUjXGCeW4viGPWUJLcN0Al7KEutKvlzW18vy3HMX06qFbpMyiyxHkWIVrHWD5lJBtmtyINsE6hX0VXw87CkRlMyFJ81jbMeeXsSAbHY4L4qpx9iKecj49KXJamUaamOlDhS6lSTlOTkscrpUNbdAeeAVajPeF1NPpjOyW3EcRxMU5ls672BHlJ1HvgY+udV6ZHlNtqblMMJdaSTZRspSVA+oGntg0Hn51NcksuEVKMgFaFi6i2PwqGh5XHpha6qmMm7tA6N4rVKdQ1GhT1PKTdKCrKfX+8OnfEmSqu+8VqfjxPLw2kqUX1XJ/xaJ9r4uit1WpZJamSoLQAVhAQCAPLrvglChMxW3Hn1NPOsDMrOsBDH+dWyR2GuBavxWQ02vJgRPh9cesLVVnC5HbbQ6oo0S4Tfy5etxti6soaXD4CG2kPyBnKhlu0Pw2Fxyv7YYorsBdMTNmFU0rCnlrzcNtV7Ze50tYabnAxVYk1CDIbp7VJZecQbkMBdxbUXPmBseYw2W7bAklpALhCDTg3KlBbY+ZRSRktbzKym40NsybjqMUxaXGTmXFqKmlEG6m5IWCCOextjbU/CbkqnsOPSUtOKIX8gQnLzuBb/fPFLVPkUmNHfiLTMQq4yR15Mn+YfxfDdsbDVvRVUM0OClECWpaRq58Po5bqnMLdb2tgaz9oBlUhFJVKjM2Q+JDYWSpR8pGt76HY+vLBkQ6lOcQUtcZTqgC0pdshvbMnkRuTbUC+hwbhVOLGhBcJtxbTKVFkpOVx1KfKp1QO6TY2H7jBUqjdCyWaQpQ/FLkaW23TyxHp6gA5CktnIpWhJT0O+oOO4zV6PIVWXp1LjKMRSA6tICVISdMx6DcEeuJh3CMs0BT64KWY12wvi/DPFV13bCkq00uPXFbdXqQI+y1tPOI1UttJSGtbc98e4pzMOF9sqcK8obSDYm9ttye2CcVkOMqYcAbfdOZLaU2UlsdAOpvgydbEX4PVBqgVQY0195vLwbvKSbgECx/MYVXpMuq/GzH4KZFFDvmYJ86eeZHcDzH3wOTLjpiinJQlDCnAVcV5SRmAtcgpHO2nphvNRYpFADyGkmNCSM5JsF3V15kk7cyLYzr/AJu0sss33X8BFBjVOAlblGlR6rSHlXZhvnKU3G4VY2PK1vUYMx/EDEeW2w7BfOVxPESMq0x8wylWdJ28xGoGFeVVpCHUTqdCbjMuqzOsuOZXHST869RYb62I2GNMiD9st5DNitMqQQlhaVWT36X9sNLdyBG6pBTxu3DcmpVUXuE1HbLaVE5cyr3Vre9teWFqJRmKm4gx6TMQy5tKW2pKU97qtmHfDDSoMeK+BPRFMtoJR8ZkClZOStdLm/Mb4OVSqMxkXWo5E/KgHMtZ9f3/AEwinWI5O69ssBu06VBoynxOK3o0YpypF0XCr2zHU3298Yfj6XVac05WoSWrJKQVqsUg2OULFtNjy32xrjTft9/4WQytpnXhpbWQoEjckbK3sNvU6kZDYNOfkUWWpRbQQOIsWPDsbL/M35WJ6YMcXexpfgboVCgy6NUJEJALMJOilOleY720tsOZvywRjUyK5S4hCSuJIYC21MuZBcp1JA0UR0PPA6iTXaVTKh4deLaXnyUouPmJTZNhzB8v17Yp8LeJUwoj9LnD4NS+QNkoc5kXFk373B6jFmk8xIq9MYodFobDbEdic4mClBK2XrqOh5EW7667YXGYlNTVVu0tuK4Q9dhTp8qj5rEW62HLGiuypYpqDTHG0zOKOMt5lCFBHVAA133uRgPSX33WWpLy8603UpZSBqlWvtZOFu1YzVNFQXKrgU+qnTwEmzi1NZzcbgHpywIedq9KqCURJLhiqcCboN0p7FOwPLH0uJWZLVYTSYsRptBcKy5cm7Z1zADQG+E3xQ4zTfFKlNAlh9IUV2skPAm9jte9ie+FjJXVDPtVnSl9c5tT7z0Gc6kF1iG8QsDkVpANiQQbHUaYIGPT2FJlVOe4koOYFx3LYbWACU3AG3TAKFSqLImOMzKipL0lRX/a2RlUonUhYOmp543s0OHTZUOM83HkxxJyNId81xlOdWltAbb9sdKvTGWcvZzxJX6dH8Ntw6OENpl/OEIAsjc36Em2muJjNWqOaRVHHkuh77kvxklAsDqctvy/5xMU40q8SU1nIEmtuQ3kmG6tVrAqbPnBG5I7/phjiQI1QiJqUV0omN+ZL/EKs1vmSQfoQbEemuAcFhUZ+cp+QOCGlFAUnVSulsUwvtKOqVIo3kjIA4wWQEKGlhY/i9NdsGS7YTBHAxV+DHp7LNbpav7RGX94HfMV6kaX25j3wcfbZqNCEmcW/hbBxaGVXyE2OdR00APtqcApKC+38Kt5v4ZYUSHE8wQf1IPbfDTS4TcigGDRneGqMkNo81wpQAKr2NlA3xmm6SstSsGSY/hwx1IVGWpRSAHGn1lRB/xdfXCuwmXFlOfZ702QhJ+6YJPFPS9uWm+2CNSplwltu0OS2bcJ1kJSu34b9Ntjj1S3ZDFIeL1MkJABDjUd0JTva5AsT/GGg+qtOzvxHtpybLnBiohhaVt8F5KVJPCXuBoBfc/zjG7TKnVXlLjBERxnSRx3BwwdNjvfsNu2KJLK5Ly6gyy6t5gpDbEddkhIFxdIAvrboO2C9MdVVlurlUp5qKHS6nMuylKsAskW20/PTnhpOvJCU3s6y+YjBhx34zzy0gBMdy6lH/Dcgk9Lm9/pgbMlSavUjVG1KQGEkIZcay8QAgEAHUHrfmcbJqFy3Eu0mntjh3UpBdKlEJ1uTrr2BwWpcVVX8PMTGwlMtKlqAUmwVfLdJ9cw73wE6XYNZoxwnm66qmVCEhbj0Vw5rC6sqArKknnsPrgO4f8AqepVDgsmMto5iguFRSTpc9r/AExoo78d6Q9Lo8lUOYWHuIgWBzZDqUnmDz7ajAdqPLpDjEtp4tyStaASPMq1vm5EHFEkljYKbeTsuqQoakwlTpyWko8wUxlU0u+1uYPbG/w7KTOgLCFjh8dbdgLXBAP/AOjgqxU4K1fETIqWnlWSoKbztuHt0OF+p1lqk1Jz7IjLWw4riOkMKSlJAsMp/XltgJ97XXIGq9n0OG6zAhyKnLPmyNpQlSv8CdBrzO+Eu0F9m9bYkCM+srTJS0otpN9dUkEG/rioVRmqx27NSCy2M3mHyKPRRPTljdOLVVhKp8RQjAlIKQSu9iPmUdv+22Jxg4vI92sHKpSY1Iitz2kpnNJ8zKlOXyp230zC9r6AjGyi1FU2l1GHWihK4uSWw8BlCAdCNel7ehxVRY0qmsyqc7FLzHDLiBqdef7g+mCTjsF9xbE2MlTCuK0tZGiAAkC/XX88d2V0Hr7MVbebmpZcIKlsqLxbCghS0qHmAJ5hV9McwOqMeOiC6wy/IJdcSQpaiSkA+aw6d+2JivHC0K5fgGedgvIcW87KSvP5AnypuOV+Zvywf+HdhQmULCckhhRaZCfMLWIJ73tjE0qDMCmGVocaeaBy/wBBJ5+h19CcEq/J48qljOpsBpwKIVlscvX2t7HCSllIFYsGwZ7AkINQa+7R5kKcbz2Ub62GoOw2O2GSE5TWlCoQJEZrLdT6G3VN509cpSADvrpgL9kMyIjj0OchtKAQ6mUCSk9yLW5f8HTjMR1qpMNvvtSYChZxLKSQokG2gNyP174EoqQQ54uq8R6ntRm1uOvAoIKt031uT3/jAWmTJSqpwHpgRAdZKuMgea6RYgG2uvr+eCSXoUtwLhCjyEtpCELZUm6EjYEKSCLeuPFRisym0OGS3ElNi8dSXbBRGtim6kn2JwqjWGFOnYJnBujyUvOS3qe/JSV8bLxmnLf/AGDdCiLbXAvyxpE9D7bC0ynHEOpIsoDIRbW4At6eh64JU+ZKchNoW+c8hAvmQlfFURfUkjlb64wUmmSYTyYdUYC2nipTSQgZcvltYjncnTcEd8Bu4Z2h1mWA5QX2oMN4x2Q22ErKW0DQBItYDuRb1wNoTk2P4dkRJD6IcoK4gWpQGXMSeZv/AEj2xJtNkuxUMUuWppxbiQl5arFlIJJH+K/TucCvElJTBU3IRV1SaivSUl8CzieRA1y7WwOKpewTTi9HWIPEBQqUlbiwpK16BBBBBtcgq3xrgUd2E2tD6mp1NWgBbalKC2iDopGpte/LXbAmnVcx/OqG4hWh+7dSL+ptfBn7Yl1CACy0tpDhslS3is/TbDTlyJ/gU1I1tUl1n7ylLVISRfgrIS52Gpsr1/1xQ8qqTKeRIgmI+lJ8zyrajUA35afmMZ0MyaLFcekVFkLec+7ZfXnynmcp/bEiTHqzOgRHHkhtuRxXQ22EjhjVVxvyt6kYCu7ObWmaPD3iANUtqNMghiOXi2VobAShfMHtgNVYAgeLimECwlxoKWwyoBKiTcEDa2x9cM9RgtPVJbKEJLai2TpsUpGc481+kCYymUlkrmxnW20HNbcAkW56E6HnjlNKWPZyjaVnrw4qp1CPUZjEqI3DQtaVfFZhlBTqrbTr63xdFejwG1yoqDIU4koRJkGweBIJKUf0aDzG5PLGNLrKqa7HfHAaHmU2m44+vzkaX1FlJOwBxZNblVKLGmtPNiQG8r0VJ8pOXUJ00tysf5xzpKwNWwHVEvpi/FzXSqQ8SQVABShtfsNQB6HviYF/DOyFENFxx51VlhalXQEXFjfYAlWJjZxxXURmSpSlRIsZcRttgga5E/PpurrucWxZTlQqdM+ItldVZSBfLqdf0xMTAaxZOGwr41bTT/ESHol21qaUlVlEBQBO454uT/7zGZJJQhIc15q4ea5+gHoMcxMQf1j/AAd7Zk+JXSo/xEZLZKiAUOICk66nTFZnl91iT8NFadXxW1FpoJuLJP1xzExSC8bB7PFHlPKiKuu6oylKaWQCQW7Zd9D09hhji1yZXULXNLYKUKaTwk5bApvf1vz7YmJiXIkND7GGg1qbNp8YyFJUrOlRVaxJIVf9BjEsfEVaXxiVEOlAJ6AYmJhaSk6Hm3SJDYEqY0wpSkJXfVFrgC+guNtMMS1fC/FMMJCER0Da913/AKjv9LYmJheX0dxihVFmQmLLdsXVKWi4AAATlsB0+Y4zJrUuktzFQ+GlSgAVFNz2/PXHcTGyCVIhJ+THjw0+tyl/ELN3BG4hJ1zEde3PFlOkuyvD0dbyypam0vFfMrAUL+4SL4mJjG0smhN4Bvj9ao8+C+0cq1NKPuNL+pG+M1GKmmgUKVYtcXLfQHNa3poPpiYmHekcthGoLLcKTITbiuLUlSram17YmJiYpJtGbkfkf//Z" },
+    { id: 97,  categoryId: 10,  name: "White sugar",       nameSi: "සුදු සීනි",        price: 120, unit: "500 g",   stock: 60,  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4tmJz4Nne-z7-V8CdJ-SDEbJ4kdx_eo4Vq3dDoqJLdmL06im86s-CWBXS&s=10" },
+    { id: 98, categoryId: 10, name: "Salt cube",              nameSi: "ලුණු කැට", price: 150,  unit: "1kg",   stock: 100, image: "https://dm-group.shophere.lk/wp-content/uploads/2020/04/IMG_2324-1584517447.jpg" },
+    // Household & Cleaning
+    { id: 103, categoryId: 11, name: "Dish Soap",         nameSi: "බඳුන් සබන්",          price: 145, unit: "500 ml",  stock: 30,  image: "https://images.unsplash.com/photo-1585421514738-01798e348b17?w=300&q=80" },
+    { id: 104, categoryId: 11, name: "Broom",             nameSi: "කොටු",                price: 320, unit: "1 pc",    stock: 10,  image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=300&q=80" },
+    // Personal Care
+    { id: 105, categoryId: 12, name: "Shampoo",           nameSi: "ෂැම්පූ",              price: 380, unit: "200 ml",  stock: 25,  image: "https://images.unsplash.com/photo-1585751119414-ef2636f8aede?w=300&q=80" },
+    { id: 106, categoryId: 12, name: "Toothpaste",        nameSi: "දත් මැදීමේ පේස්ට්",  price: 195, unit: "150 g",   stock: 35,  image: "https://images.unsplash.com/photo-1559591937-abc8a8b8e8e8?w=300&q=80" },
+    // Baby Products
+    { id: 107, categoryId: 13, name: "Baby Diapers",      nameSi: "ළදරු නැපීස්",        price: 950, unit: "10 pcs",  stock: 20,  image: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=300&q=80" },
+    { id: 108, categoryId: 13, name: "Baby Powder",       nameSi: "ළදරු කුඩු",           price: 320, unit: "200 g",   stock: 15,  image: "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=300&q=80" },
+    // Frozen Foods
+    { id: 109, categoryId: 14, name: "Frozen Fish",       nameSi: "ශීතකළ මාළු",          price: 550, unit: "500 g",   stock: 18,  image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300&q=80" },
+    { id: 110, categoryId: 14, name: "Frozen Vegetables", nameSi: "ශීතකළ එළවළු",         price: 290, unit: "400 g",   stock: 22,  image: "https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=300&q=80" },
+],
+  // ── helpers ────────────────────────────────────────────────────────────────
+  get(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+    catch { return fallback; }
+  },
+  set(key, val) { localStorage.setItem(key, JSON.stringify(val)); },
+
+  keyFor(name) {
+    const map = {
+      categories: 'ss_categories',
+      products: 'ss_products',
+      orders: 'ss_orders',
+      cart: 'ss_cart',
+      settings: 'ss_settings',
+    };
+    return map[name] || name;
+  },
+
+  async hydrateFromServer() {
+    if (typeof fetch !== 'function') return;
+    try {
+      const names = ['categories', 'products', 'orders', 'cart', 'settings'];
+      const results = await Promise.all(names.map(async (name) => {
+        const response = await fetch(`/api/store?key=${encodeURIComponent(name)}`, {
+          credentials: 'same-origin',
+          cache: 'no-store',
+        });
+        if (!response.ok) throw new Error(`Store API returned ${response.status}`);
+        const data = await response.json();
+        return { name, value: data.value };
+      }));
+
+      results.filter(Boolean).forEach(({ name, value }) => {
+        if (value === undefined || value === null) return;
+        const key = this.keyFor(name);
+        const current = this.get(key, null);
+        const isEmptyCollection = Array.isArray(value) && value.length === 0 && (current === null || (Array.isArray(current) && current.length === 0));
+        if (isEmptyCollection && (name === 'categories' || name === 'products')) {
+          return;
+        }
+        this.set(key, value);
+      });
+    } catch (error) {
+      console.warn('Store hydration skipped:', error.message || error);
+    }
+  },
+
+  async syncToServer(name, value) {
+    if (typeof fetch !== 'function') return;
+    const response = await fetch(`/api/store?key=${encodeURIComponent(name)}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
+      body: JSON.stringify({ key: name, value })
+    });
+    if (!response.ok) throw new Error(`Store API returned ${response.status}`);
+    return response.json();
+  },
+
+  async refreshFromServer(name) {
+    if (typeof fetch !== 'function') return false;
+    const response = await fetch(`/api/store?key=${encodeURIComponent(name)}`, {
+      credentials: 'same-origin',
+      cache: 'no-store',
+    });
+    if (!response.ok) throw new Error(`Store API returned ${response.status}`);
+    const data = await response.json();
+    if (data.value !== undefined && data.value !== null) this.set(this.keyFor(name), data.value);
+    return true;
+  },
+
+  // ── public API ─────────────────────────────────────────────────────────────
+  getCategories()  { return this.get("ss_categories", this.defaultCategories); },
+  getProducts()    { return this.get("ss_products",   this.defaultProducts);   },
+  getOrders()      { return this.get("ss_orders",     []);                     },
+  getCart()        { return this.get("ss_cart",       []);                     },
+
+  saveCategories(d) { this.set("ss_categories", d); return this.syncToServer('categories', d); },
+  saveProducts(d)   { this.set("ss_products",   d); return this.syncToServer('products', d); },
+  saveOrders(d)     { this.set("ss_orders",     d); return this.syncToServer('orders', d); },
+  saveCart(d)       { this.set("ss_cart",       d); return this.syncToServer('cart', d); },
+  saveSettings(d)   { this.set('ss_settings', d); return this.syncToServer('settings', d); },
+
+  nextOrderId() {
+    const orders = this.getOrders();
+    const last   = orders.length ? Math.max(...orders.map(o => o.seq)) : 10024;
+    return { seq: last + 1, id: `FM-${last + 1}` };
+  },
+
+  isAdmin() { return sessionStorage.getItem("ss_admin") === "true"; },
+  adminLogin(pass) {
+    if (pass === "admin123") { sessionStorage.setItem("ss_admin", "true"); return true; }
+    return false;
+  },
+  adminLogout() { sessionStorage.removeItem("ss_admin"); },
+
+  getSettings() {
+    return this.get('ss_settings', {
+      name:     'Sunil Store',
+      tagline:  'Fresh Choices, Happy Homes.',
+      phone:    '0775163271',
+      address:  'Udalamatta, Galle',
+      mapUrl:   'https://www.google.com/maps/place/Sunil+Store/@6.1829866,80.2948983,17z/data=!3m1!4b1!4m6!3m5!1s0x3ae1650053d15c7b:0xb8600c6f5bb91ff!8m2!3d6.1829866!4d80.2948983!16s%2Fg%2F11xh5tx4py?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D',
+      openTime: '06:00',
+      closeTime:'21:00',
+      openDays: [0,1,2,3,4,5,6],
+    });
+  },
+  get STORE_PHONE() { return this.getSettings().phone; },
+  get STORE_NAME()  { return this.getSettings().name;  },
+};
+
+if (typeof module !== 'undefined') {
+  module.exports = { DB };
+}

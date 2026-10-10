@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Sunil Store</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>" />
+  <style>
+    /* ── Login screen ── */
+    .login-screen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #43a047 100%);
+      padding: 1rem;
+    }
+    .login-card {
+      background: #fff; border-radius: 20px; padding: 2.5rem 2rem;
+      width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,.3);
+      text-align: center;
+    }
+    .login-card .logo-big { font-size: 3.5rem; margin-bottom: .5rem; }
+    .login-card h2 { font-size: 1.5rem; font-weight: 800; color: var(--green); margin-bottom: .3rem; }
+    .login-card p  { color: var(--muted); font-size: .88rem; margin-bottom: 1.5rem; }
+    .login-card input { margin-bottom: 1rem; }
+    .login-error { color: var(--red); font-size: .82rem; margin-top: .5rem; }
+
+    /* ── Admin layout ── */
+    .admin-layout { display: flex; min-height: 100vh; }
+
+    /* ── Sidebar ── */
+    .admin-sidebar {
+      width: 240px; background: linear-gradient(180deg, #1b5e20, #2e7d32);
+      color: #fff; display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+      transition: transform .3s;
+    }
+    .sidebar-logo {
+      padding: 1.5rem 1.2rem; border-bottom: 1px solid rgba(255,255,255,.15);
+      display: flex; align-items: center; gap: .7rem;
+    }
+    .sidebar-logo span { font-size: 1.8rem; }
+    .sidebar-logo div h3 { font-size: 1rem; font-weight: 800; }
+    .sidebar-logo div p  { font-size: .72rem; color: #a5d6a7; }
+    .sidebar-nav { flex: 1; padding: 1rem 0; }
+    .nav-item {
+      display: flex; align-items: center; gap: .8rem;
+      padding: .75rem 1.5rem; color: rgba(255,255,255,.75);
+      cursor: pointer; transition: all .2s; font-size: .9rem; font-weight: 500;
+      border-left: 3px solid transparent;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .nav-item.active { background: rgba(255,255,255,.15); color: #fff; border-left-color: var(--orange2); }
+    .nav-item .icon { font-size: 1.2rem; }
+    .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,.15); }
+
+    /* ── Main content ── */
+    .admin-main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+    .admin-topbar {
+      background: #fff; border-bottom: 2px solid var(--border);
+      padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .admin-topbar h2 { font-size: 1.2rem; font-weight: 800; color: var(--green); }
+    .admin-content { padding: 1.5rem; flex: 1; }
+
+    /* ── Stats cards ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-card {
+      background: #fff; border-radius: var(--radius); padding: 1.2rem;
+      box-shadow: var(--shadow); display: flex; align-items: center; gap: 1rem;
+    }
+    .stat-icon { font-size: 2.2rem; }
+    .stat-val  { font-size: 1.6rem; font-weight: 800; color: var(--green); line-height: 1; }
+    .stat-lbl  { font-size: .78rem; color: var(--muted); font-weight: 600; }
+
+    /* ── Section panel ── */
+    .panel { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .panel-header {
+      padding: 1rem 1.5rem; border-bottom: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem;
+    }
+    .panel-header h3 { font-size: 1rem; font-weight: 700; }
+    .panel-body { padding: 1.5rem; }
+
+    /* ── Product form ── */
+    .img-preview { width: 100%; height: 140px; object-fit: cover; border-radius: var(--radius-sm); margin-top: .5rem; display: none; }
+
+    /* ── Order detail ── */
+    .order-items-list { font-size: .85rem; }
+    .order-items-list .oi { display: flex; justify-content: space-between; padding: .3rem 0; border-bottom: 1px solid var(--border); }
+    .order-items-list .oi:last-child { border-bottom: none; }
+
+    /* ── Mobile sidebar toggle ── */
+    .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+    .nav-badge {
+      background: var(--orange); color: #fff; border-radius: 50px;
+      font-size: .68rem; font-weight: 800; padding: .1rem .45rem; margin-left: auto;
+    }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { transform: translateX(-100%); }
+      .admin-sidebar.open { transform: translateX(0); }
+      .admin-main { margin-left: 0; }
+      .menu-toggle { display: block; }
+      .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 99; display: none; }
+      .sidebar-overlay.show { display: block; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .admin-content { padding: 1rem; }
+      .panel-body { padding: 1rem; }
+      .admin-topbar { padding: .8rem 1rem; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: .6rem; }
+      .stat-card { padding: .8rem; }
+      .stat-val { font-size: 1.2rem; }
+      .stat-icon { font-size: 1.6rem; }
+      #orderFilters { gap: .3rem; }
+      #orderFilters .btn { font-size: .72rem; padding: .3rem .6rem; }
+    }
+
+    /* ── Small-screen admin refinements ── */
+    .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-wrap table { min-width: 620px; }
+    #tab-dashboard .table-wrap table { min-width: 560px; }
+
+    @media (max-width: 768px) {
+      .admin-sidebar { width: min(280px, 86vw); }
+      .nav-item { min-height: 48px; padding-inline: 1.25rem; }
+      .admin-topbar { gap: .65rem; }
+      .admin-topbar > div { min-width: 0; }
+      .admin-topbar h2 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .admin-topbar > a { flex-shrink: 0; }
+      .panel-header { padding: .85rem 1rem; }
+      .panel-header .btn { min-height: 42px; }
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stat-card { min-width: 0; }
+      .stat-card > div:last-child { min-width: 0; }
+      .stat-val, .stat-lbl { overflow-wrap: anywhere; }
+      .admin-content { overflow: hidden; }
+    }
+
+    @media (max-width: 480px) {
+      .admin-content { padding: .75rem; }
+      .admin-topbar { padding: .65rem .75rem; }
+      .admin-topbar h2 { font-size: 1rem; }
+      .admin-topbar > a { padding-inline: .65rem; }
+      .admin-topbar > a { font-size: 0; }
+      .admin-topbar > a::first-letter { font-size: 1rem; }
+      .stats-grid { gap: .5rem; margin-bottom: 1rem; }
+      .stat-card { gap: .55rem; padding: .7rem .6rem; }
+      .stat-icon { font-size: 1.45rem; }
+      .stat-val { font-size: 1.05rem; }
+      .stat-lbl { font-size: .68rem; line-height: 1.2; }
+      .panel-header { align-items: stretch; }
+      .panel-header h3 { align-self: center; }
+      .panel-header .btn { width: 100%; }
+      .panel-body { padding: .85rem; }
+      .modal-overlay { padding: .5rem; }
+      .modal-header { padding: .95rem 1rem; }
+      .modal-body { padding: .85rem; }
+      .modal-footer { flex-direction: column-reverse; padding: .75rem 1rem 1rem; }
+      .modal-footer .btn { width: 100%; }
+      #orderFilters .btn { min-height: 40px; }
+      #setOpenDays { gap: .35rem !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Login Screen ────────────────────────────────────────────────────────── -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="logo-big">🛒</div>
+    <h2>Sunil Store</h2>
+    <p>Admin Panel — Sign In</p>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="loginUser" value="admin" readonly />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()" />
+    </div>
+    <button class="btn btn-primary w-full" onclick="doLogin()">🔐 Sign In</button>
+    <div class="login-error hidden" id="loginError">Incorrect password.</div>
+    <p style="margin-top:1rem;font-size:.75rem;color:var(--muted);"></p>
+  </div>
+</div>
+
+<!-- ── Admin App ───────────────────────────────────────────────────────────── -->
+<div id="adminApp" class="hidden">
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="sidebar-logo">
+      <span>🛒</span>
+      <div><h3>Sunil Store</h3><p>Admin Panel</p></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="showTab('dashboard')" id="nav-dashboard">
+        <span class="icon">📊</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="showTab('products')" id="nav-products">
+        <span class="icon">🛍️</span> Products
+      </div>
+      <div class="nav-item" onclick="showTab('categories')" id="nav-categories">
+        <span class="icon">📂</span> Categories
+      </div>
+      <div class="nav-item" onclick="showTab('orders')" id="nav-orders">
+        <span class="icon">📋</span> Orders <span id="pendingBadge" class="nav-badge hidden"></span>
+      </div>
+      <div class="nav-item" onclick="showTab('settings')" id="nav-settings">
+        <span class="icon">⚙️</span> Settings
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn btn-danger btn-sm w-full" onclick="doLogout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div style="display:flex;align-items:center;gap:.8rem;">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <h2 id="tabTitle">Dashboard</h2>
+      </div>
+      <a href="index.html" class="btn btn-outline btn-sm">🌐 View Store</a>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- ── Dashboard ── -->
+      <div id="tab-dashboard">
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="panel">
+          <div class="panel-header"><h3>📋 Recent Orders</h3></div>
+          <div class="table-wrap"><table id="recentOrdersTable">
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="recentOrdersBody"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ── Products ── -->
+      <div id="tab-products" class="hidden">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>🛍️ Products</h3>
+            <button class="btn btn-primary btn-sm" onclick="openProductModal()">➕ Add Product</button>
+          </div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Unit</th><th>Stock</th><th>Actions</th></tr></thead>
+            <tbody id="productsTableBody"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ── Categories ── -->
+      <div id="tab-categories" class="hidden">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>📂 Categories</h3>
+            <button class="btn btn-primary btn-sm" onclick="openCatModal()">➕ Add Category</button>
+          </div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Icon</th><th>Name (EN)</th><th>Name (සිං)</th><th>Products</th><th>Actions</th></tr></thead>
+            <tbody id="catsTableBody"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ── Orders ── -->
+      <div id="tab-orders" class="hidden">
+        <div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap;" id="orderFilters"></div>
+        <div class="panel">
+          <div class="panel-header"><h3>📋 All Orders</h3></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="ordersTableBody"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ── Settings ── -->
+      <div id="tab-settings" class="hidden">
+        <div class="panel" style="max-width:520px;">
+          <div class="panel-header"><h3>⚙️ Store Settings</h3></div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label>Store Name</label>
+              <input type="text" id="setName" />
+            </div>
+            <div class="form-group">
+              <label>Tagline</label>
+              <input type="text" id="setTagline" />
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" id="setPhone" />
+            </div>
+            <div class="form-group">
+              <label>Shop Address</label>
+              <input type="text" id="setAddress" placeholder="No. 45, Main Street, Colombo 10" />
+            </div>
+            <div class="form-group">
+              <label>Google Maps URL</label>
+              <input type="url" id="setMapUrl" placeholder="https://maps.google.com/?q=..." />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Opening Time</label>
+                <input type="time" id="setOpenTime" />
+              </div>
+              <div class="form-group">
+                <label>Closing Time</label>
+                <input type="time" id="setCloseTime" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Open Days</label>
+              <div id="setOpenDays" style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem;"></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveSettings()">💾 Save Settings</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </div><!-- /admin-main -->
+</div><!-- /adminApp -->
+
+<!-- ── Product Modal ───────────────────────────────────────────────────────── -->
+<div class="modal-overlay hidden" id="productModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="productModalTitle">Add Product</h3>
+      <button class="close-btn" onclick="closeModal('productModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="pId" />
+      <div class="form-row">
+        <div class="form-group">
+          <label>Name (English)</label>
+          <input type="text" id="pName" placeholder="e.g. Tomatoes" />
+        </div>
+        <div class="form-group">
+          <label>Name (සිංහල)</label>
+          <input type="text" id="pNameSi" placeholder="e.g. තක්කාලි" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="pCategory"></select>
+        </div>
+        <div class="form-group">
+          <label>Unit</label>
+          <input type="text" id="pUnit" placeholder="e.g. 1 kg" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Price (Rs.)</label>
+          <input type="number" id="pPrice" placeholder="0.00" min="0" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label>Stock Quantity</label>
+          <input type="number" id="pStock" placeholder="0" min="0" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Image URL (optional)</label>
+        <input type="url" id="pImage" placeholder="https://…" oninput="previewImg()" />
+        <img id="imgPreview" class="img-preview" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('productModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProduct()">💾 Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Category Modal ──────────────────────────────────────────────────────── -->
+<div class="modal-overlay hidden" id="catModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="catModalTitle">Add Category</h3>
+      <button class="close-btn" onclick="closeModal('catModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="cId" />
+      <div class="form-row">
+        <div class="form-group">
+          <label>Name (English)</label>
+          <input type="text" id="cName" placeholder="e.g. Fruits & Vegetables" />
+        </div>
+        <div class="form-group">
+          <label>Name (සිංහල)</label>
+          <input type="text" id="cNameSi" placeholder="e.g. පළතුරු සහ එළවළු" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Icon (emoji)</label>
+        <input type="text" id="cIcon" placeholder="🥦" maxlength="4" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('catModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCategory()">💾 Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Order Detail Modal ──────────────────────────────────────────────────── -->
+<div class="modal-overlay hidden" id="orderDetailModal">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-header">
+      <h3 id="orderDetailTitle">Order Details</h3>
+      <button class="close-btn" onclick="closeModal('orderDetailModal')">✕</button>
+    </div>
+    <div class="modal-body" id="orderDetailBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('orderDetailModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Confirm Delete Modal ────────────────────────────────────────────────── -->
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal-header"><h3>⚠️ Confirm Delete</h3><button class="close-btn" onclick="closeModal('confirmModal')">✕</button></div>
+    <div class="modal-body"><p id="confirmMsg">Are you sure?</p></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('confirmModal')">Cancel</button>
+      <button class="btn btn-danger" id="confirmOkBtn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
