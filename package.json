@@ -1,0 +1,15 @@
+{
+  "name": "sunil-store",
+  "version": "1.0.0",
+  "description": "Sunil Store grocery app with shared backend storage",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node --test data-store.test.js"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.38.4",
+    "express": "^4.21.2"
+  }
+}
