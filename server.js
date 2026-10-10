@@ -89,6 +89,10 @@ app.post('/api/store', (req, res) => {
 app.get('/health', (req, res) => res.json({ ok: true }));
 
 app.get('*', (req, res) => {
+  const ext = path.extname(req.path);
+  if (ext && ext !== '.html') {
+    return res.status(404).send('Not found');
+  }
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 

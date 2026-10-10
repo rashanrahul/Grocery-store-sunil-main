@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "server.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/sw.js",       "dest": "/sw.js" },
+    { "src": "/manifest.json", "dest": "/manifest.json" },
+    { "src": "/icons/(.*)", "dest": "/icons/$1" },
+    { "src": "/style.css",  "dest": "/style.css" },
+    { "src": "/data.js",    "dest": "/data.js" },
+    { "src": "/app.js",     "dest": "/app.js" },
+    { "src": "/admin.js",   "dest": "/admin.js" },
+    { "src": "/admin.html", "dest": "/admin.html" },
+    { "src": "/(.*)",       "dest": "/server.js" }
+  ]
+}
